@@ -1,0 +1,7 @@
+{
+  "notice": "Fictitious, author-created fixture. KB official/verified flags simulate the contract for testing only; they are not evidence of a real publication. The cached response is illustrative, not a formal model response.",
+  "reference": "张三,李四.学术引用示例研究[J].示例图书馆学刊,2024,12(2):10-20.",
+  "journal_kb": [{"name_cn":"示例图书馆学刊","name_en":"Example Journal of Library Studies","source":"synthetic_demo","confidence":1}],
+  "title_kb": [{"record_id":"demo-title-1","title_cn":"学术引用示例研究","title_en":"An Example Study of Academic References","journal_cn":"示例图书馆学刊","year":"2024","verification_status":"verified","is_official":true,"source":"synthetic_demo"}],
+  "shared_response": {"english_authors":["Zhang San","Li Si"],"english_title":"Example Generated Title","english_journal":"Example Generated Journal","year":2024,"volume":"12","issue":"2","pages":"10-20"}
+}

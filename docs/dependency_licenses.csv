@@ -1,0 +1,50 @@
+dependency,tested_version,upstream_license_metadata,bundled_in_repository
+altair,6.2.2,License text supplied in distribution; inspect upstream license files,False
+anyio,4.15.1,MIT,False
+attrs,26.1.0,MIT,False
+certifi,2026.7.22,MPL-2.0,False
+charset-normalizer,3.5.2,MIT,False
+click,8.5.0,BSD-3-Clause,False
+colorama,0.4.6,License :: OSI Approved :: BSD License,False
+exceptiongroup,1.3.1,License :: OSI Approved :: MIT License,False
+h11,0.16.0,MIT,False
+httptools,0.9.0,MIT,False
+idna,3.20,BSD-3-Clause,False
+itsdangerous,2.2.0,License :: OSI Approved :: BSD License,False
+Jinja2,3.1.6,License :: OSI Approved :: BSD License,False
+jsonschema,4.26.0,MIT,False
+jsonschema-specifications,2025.9.1,MIT,False
+lxml,6.1.3,BSD-3-Clause,False
+MarkupSafe,3.0.4,BSD-3-Clause,False
+narwhals,2.27.1,MIT,False
+numpy,2.2.6,License text supplied in distribution; inspect upstream license files,False
+packaging,26.3,Apache-2.0 OR BSD-2-Clause,False
+pandas,2.3.3,License text supplied in distribution; inspect upstream license files,False
+pillow,12.3.0,MIT-CMU,False
+pip,23.0.1,MIT,False
+portalocker,4.4.0,BSD-3-Clause,False
+protobuf,7.36.2,3-Clause BSD License,False
+pyarrow,25.0.1,Apache-2.0,False
+pydeck,0.9.3,Apache License 2.0,False
+pymupdf,1.28.2,Dual Licensed - GNU AFFERO GPL 3.0 or Artifex Commercial License,False
+pypinyin,0.55.0,MIT,False
+python-dateutil,2.9.0.post0,Dual License,False
+python-multipart,0.0.32,Apache-2.0,False
+pytz,2026.5,MIT,False
+referencing,0.37.0,MIT,False
+regex,2026.9.29,Apache-2.0 AND CNRI-Python,False
+requests,2.34.2,Apache-2.0,False
+rpds-py,0.30.0,MIT,False
+sacrebleu,2.6.0,Apache-2.0,False
+setuptools,65.5.0,License :: OSI Approved :: MIT License,False
+six,1.17.0,MIT,False
+starlette,1.7.0,BSD-3-Clause,False
+streamlit,1.65.0,Apache-2.0,False
+tabulate,0.10.0,MIT,False
+toml,0.10.2,MIT,False
+typing_extensions,4.16.0,PSF-2.0,False
+tzdata,2026.5,Apache-2.0,False
+urllib3,2.8.0,MIT,False
+uvicorn,0.54.0,BSD-3-Clause,False
+watchdog,6.0.0,Apache-2.0,False
+websockets,16.1.1,BSD-3-Clause,False

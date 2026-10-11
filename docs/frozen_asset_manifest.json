@@ -1,0 +1,94 @@
+{
+  "system_version": "3.9.0",
+  "formal_system_zip_sha256": "dc3bd4eec8ce2007533dac19b1a15bb8a7bf283c8c0fffd7de8d3b8f254446a7",
+  "prompt_sha256": "b05a42c77f1f2d5dc61bd349df0f27e787ab12e2c0b4c4c8004ab4ca0cc546f8",
+  "assets": [
+    {
+      "file": "evaluation_300.csv",
+      "sha256": "4e07564b71a84d85060d076d69ce79435db00aace9cbd0e142f1b4ba93954cc8",
+      "status": "NOT_BUNDLED_PERMISSION_UNCONFIRMED"
+    },
+    {
+      "file": "expected_author_metrics.csv",
+      "sha256": "7d321bedd0ff371efb6c08623908511601ded74a596a89f50b50a7b7df7b3b0a",
+      "status": "NOT_BUNDLED_PERMISSION_UNCONFIRMED"
+    },
+    {
+      "file": "expected_non_author_metrics.json",
+      "sha256": "0f16e0c3d2bd71cf755fdd7f3ec6b94e6ad113b3088dda28e830d4fed92aeae2",
+      "status": "NOT_BUNDLED_PERMISSION_UNCONFIRMED"
+    },
+    {
+      "file": "full_v390_output.csv",
+      "sha256": "c9d255906bfe7ab337b4049bad18b5f24a08c23f3e4ba576481e398bcf0eb687",
+      "status": "NOT_BUNDLED_PERMISSION_UNCONFIRMED"
+    },
+    {
+      "file": "institution_kb.json",
+      "sha256": "139dad2b8ecbbefcf9c4eebaabccd0d6b74ea91416598bb99467cf0314b2d80e",
+      "status": "NOT_BUNDLED_PERMISSION_UNCONFIRMED"
+    },
+    {
+      "file": "journal_kb.json",
+      "sha256": "869e989419c49257f6f7e15c24c6592841346770cff39abe00739dc8ec254ece",
+      "status": "NOT_BUNDLED_PERMISSION_UNCONFIRMED"
+    },
+    {
+      "file": "llm_only_output.csv",
+      "sha256": "0abaada91e790bd676f76dbd8206b6eb9ccf44fcfbecddd0f6cb0b53629e0cbc",
+      "status": "NOT_BUNDLED_PERMISSION_UNCONFIRMED"
+    },
+    {
+      "file": "organization_kb.json",
+      "sha256": "4797c64fe4083515691157d99cc2de0e313fca16eeeb4ab2a8c24ade9eefa32b",
+      "status": "NOT_BUNDLED_PERMISSION_UNCONFIRMED"
+    },
+    {
+      "file": "publisher_kb.json",
+      "sha256": "2856b47a1b3094fb621681b014d2b22ae57162db1a8f89130d67477487e49a2f",
+      "status": "NOT_BUNDLED_PERMISSION_UNCONFIRMED"
+    },
+    {
+      "file": "Rules_KB_output.csv",
+      "sha256": "724c02b275d9d2d7fad7723fb04c8c83315f25edb964fb88949ce46d873fd779",
+      "status": "NOT_BUNDLED_PERMISSION_UNCONFIRMED"
+    },
+    {
+      "file": "Rules_output.csv",
+      "sha256": "c12d343719a4282dd62d28e5bb8d5b993f49491331df638def6ec8df16d43c98",
+      "status": "NOT_BUNDLED_PERMISSION_UNCONFIRMED"
+    },
+    {
+      "file": "shared_llm_raw.jsonl",
+      "sha256": "298e31009f44fb03f49125a8fa438c822133f15ed2aca4188ad06b06ec39ad56",
+      "status": "NOT_BUNDLED_PERMISSION_UNCONFIRMED"
+    },
+    {
+      "file": "title_kb.json",
+      "sha256": "ad68e932a2eb06637a11c2bc91b2da684ac553905bacf61c715fe8eee1e31564",
+      "status": "NOT_BUNDLED_PERMISSION_UNCONFIRMED"
+    },
+    {
+      "file": "title_kb_masked.json",
+      "sha256": "0fa940ca30c07ac736452cdf18f5bdcd924c181cee4efa9ad8980d7f62351f78",
+      "status": "NOT_BUNDLED_PERMISSION_UNCONFIRMED"
+    }
+  ],
+  "formal_config": {
+    "requested_model": "deepseek-chat",
+    "observed_backend": "deepseek-v4-flash",
+    "temperature": 0.2,
+    "max_tokens": 512,
+    "stream": false,
+    "K": 1,
+    "critic": false,
+    "few_shot": false,
+    "online_search": false,
+    "not_sent": [
+      "top_p",
+      "seed",
+      "frequency_penalty",
+      "presence_penalty"
+    ]
+  }
+}

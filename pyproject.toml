@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "refagent-cn"
+version = "3.9.0"
+description = "Source-aware Chinese-English bibliographic normalization"
+requires-python = ">=3.10"
+license = {text = "MIT (original code only)"}
+dependencies = ["pypinyin>=0.50.0", "sacrebleu==2.6.0"]
+
+[project.optional-dependencies]
+web = ["streamlit>=1.32.0"]
+pdf = ["PyMuPDF>=1.23.0"]
+comet = ["unbabel-comet==2.2.7"]
+
+[project.scripts]
+refagent-cn = "refagent_cn.agent:main"
+refagent-evaluate = "refagent_cn.evaluate:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
