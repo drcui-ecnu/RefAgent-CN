@@ -12,6 +12,8 @@ TEXT={
  'English':{'heading':'RefAgent-CN','notice':FIXTURE['notice'],'reference':'Chinese reference','journal':'Journal KB JSON path (optional)','title':'Title KB JSON path (optional)','cached':'Shared response JSON','online':'Enable one online API request (requires DEEPSEEK_API_KEY)','run':'Process reference','review':'Human review required','mode':'Generation mode','pdf':'PDF text-layer input (optional)','empty':'No reliable reference extracted; paste a reference manually.'},
  '中文':{'heading':'RefAgent-CN','notice':'示例为虚构测试数据，不是正式知识库或模型响应。示例中的官方标志仅用于演示接口契约。','reference':'中文参考文献','journal':'期刊知识库JSON路径（可选）','title':'题名知识库JSON路径（可选）','cached':'共享响应JSON','online':'启用一次在线API请求（需DEEPSEEK_API_KEY）','run':'处理参考文献','review':'需要人工复核','mode':'生成方式','pdf':'PDF文本层输入（可选）','empty':'未可靠提取引用，请手工粘贴。'}
 }
+TEXT['English']['online']='Enable online generation (configure API credentials in your environment)'
+TEXT['中文']['online']='启用在线生成（请在环境变量中配置API凭据）'
 st.set_page_config(page_title='RefAgent-CN',layout='wide')
 language=st.selectbox('Language / 语言',['English','中文'],key='language');t=TEXT[language]
 st.title(t['heading']);st.caption(t['notice'])

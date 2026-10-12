@@ -29,12 +29,18 @@ class RefAgent:
         if online and shared_response is not None:raise ValueError("Choose cached or online generation, not both")
         transport={}
         if online:
-            if not os.getenv("DEEPSEEK_API_KEY", "").strip():raise RuntimeError("Set DEEPSEEK_API_KEY before explicitly enabling online mode")
+            custom = any(os.getenv(k, "").strip() for k in ("REFAGENT_API_KEY", "REFAGENT_BASE_URL", "REFAGENT_MODEL"))
+            config={"provider":"custom" if custom else "deepseek",
+                    "model":os.getenv("REFAGENT_MODEL", "").strip() or "deepseek-chat",
+                    "base_url":os.getenv("REFAGENT_BASE_URL", "").strip() or "https://api.deepseek.com",
+                    "api_key_env":"REFAGENT_API_KEY" if custom else "DEEPSEEK_API_KEY",
+                    "temperature":.2,"max_tokens":512,"timeout":120,"enabled":True}
+            client=LLMClient(config)
+            if not client.get_api_key():raise RuntimeError("Set "+config["api_key_env"]+" before explicitly enabling online mode")
             if prompt_path is None:raise ValueError("Supply the frozen shared-generation prompt path")
             text=Path(prompt_path).read_text(encoding="utf-8")
             system=text.split("## System prompt",1)[1].split("## User prompt",1)[0].strip()
             user=text.split("## User prompt",1)[1].strip().replace("{{Chinese_Reference}}",reference)
-            client=LLMClient({"provider":"deepseek","model":"deepseek-chat","temperature":.2,"max_tokens":512,"timeout":120,"enabled":True})
             content=client._request_chat([{"role":"system","content":system},{"role":"user","content":user}],temperature=.2,max_tokens=512)
             if content is None:raise RuntimeError(client.last_error or "Empty API response")
             cleaned=re.sub(r"^```(?:json)?\s*|\s*```$","",content.strip(),flags=re.I|re.S)

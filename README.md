@@ -1,106 +1,104 @@
 # RefAgent-CN
 
-**A Source-Aware Academic Agent for Chinese–English Bibliographic Metadata Normalization**
+**Source-aware Chinese–English reference processing.**
 
-RefAgent-CN parses Chinese references, combines verified metadata with optional controlled generation, and exposes field-level provenance and human-review routing. The paper-associated code is identified by the `paper-release` tag; its correspondence to the frozen experimental system is documented in [reproducibility](docs/reproducibility.md).
+Turn Chinese journal references into structured bibliographic metadata and English citations. RefAgent-CN combines reference parsing, verified knowledge-base lookup, and optional LLM generation, while keeping the source and review status of each field visible.
 
-## Key features
+## Features
 
-- Chinese journal-reference parsing: authors, title, journal, year, volume, issue and pages.
-- Exact verified title lookup and exact-priority journal lookup. The journal resolver also exposes SequenceMatcher candidates at 0.92; the evaluated hybrid does **not** adopt fuzzy candidates or implement independent Chinese-journal aliases.
-- One optional DeepSeek request per reference; cached responses and missing-generation offline mode are supported.
-- Field-level source, official/generated status, evidence identifiers and review flags.
-- APA, MLA, Harvard, English GB/T-style and bilingual GB/T-style rendering. Outputs require bibliographic review; these are formatting implementations, not standards-compliance certification.
-- An optional English/Chinese Streamlit interface and PDF text-layer ingestion; no built-in OCR.
+- **Reference parsing** — extract authors, title, journal, year, volume, issue, and pages.
+- **Knowledge-base lookup** — reuse verified journal names and bilingual article titles.
+- **Configurable models** — connect an OpenAI-compatible chat API or use cached responses offline.
+- **Source-aware results** — distinguish verified, parsed, and generated fields, with human-review flags.
+- **Citation rendering** — APA, MLA, Harvard, English GB/T-style, and bilingual GB/T-style output.
+- **Bilingual interface** — English/Chinese Web UI with optional PDF text-layer input.
 
-## Installation
+## Quick start
 
-Python 3.10 or later:
+Requires Python 3.10 or later.
 
 ```bash
+git clone https://github.com/drcui-ecnu/RefAgent-CN.git
+cd RefAgent-CN
 python -m venv .venv
 # Windows: .venv\Scripts\activate
 # macOS/Linux: source .venv/bin/activate
-python -m pip install -r requirements.txt
 python -m pip install -e .
-```
-
-Optional interface: `python -m pip install -e ".[web]"`, then `streamlit run app.py`.
-Optional PDF engine: `python -m pip install -e ".[pdf]"`. PyMuPDF has separate AGPL/commercial licensing; the original-code MIT license does not relicense it. An external `pdftotext` installation is an optional fallback.
-
-## Quick start (no API key)
-
-```bash
 python examples/demo.py
-python -m unittest discover -s tests -v
 ```
 
-The author-created **fictitious** fixture uses:
-
-```text
-张三,李四.学术引用示例研究[J].示例图书馆学刊,2024,12(2):10-20.
-```
-
-Example APA rendering:
-
-```text
-Zhang, S., & Li, S. (2024). An example study of academic references. Example Journal of Library Studies, 12(2), 10–20.
-```
-
-The fixture's KB flags simulate verified records to test the interface contract; they are **not** evidence of a real journal or publication. The supplied response is cached illustrative input, not a formal model response. The returned `Generation_Mode`, provenance and `Review_Required` remain visible.
-
-For references without a cache or API key, `refagent-cn --reference "YOUR REFERENCE"` still parses structured fields, but does not invent English titles or authors. Supply your own permitted KB JSON files with `--journal-kb` and `--title-kb`.
-
-### Real-reference illustration
-
-The following bibliographic example was run locally with the unrestricted frozen KB and an existing cached response (no new API request). Article metadata can be checked on the [official journal page](https://dik.whu.edu.cn/jwk3/tsqbzs/EN/10.13366/j.dik.2023.04.010).
+The demo runs without an API key and uses synthetic KB records and a sample cached response:
 
 ```text
 Input:
-汤诚,刘晓霞,王春迎.场景理论视域下的“+城市公共阅读空间”营建[J].图书情报知识,2023,40(4):10-18,31.
+张三,李四.学术引用示例研究[J].示例图书馆学刊,2024,12(2):10-20.
 
 APA output:
-Tang, C., Liu, X., & Wang, C. (2023). Constructing integrated urban public reading space from the perspective of the theory of scenes. Documentation, Information & Knowledge, 40(4), 10–18,31.
+Zhang, S., & Li, S. (2024). An example study of academic references. Example Journal of Library Studies, 12(2), 10–20.
 ```
 
-The title came from an exact verified KB match; author names came from the cached response, with their generated provenance retained. This is a rendering illustration, not the masked formal-benchmark run or a claim of perfect APA compliance. The underlying full KB and response cache are not redistributed; the runnable public demo above is synthetic.
-
-### Optional online generation
-
-Set `DEEPSEEK_API_KEY` in your shell (do not commit it), then explicitly opt in:
+For your own references:
 
 ```bash
-refagent-cn --reference "YOUR REFERENCE" --online --prompt prompts/shared_generation_v390.md
+refagent-cn --reference "YOUR CHINESE REFERENCE" --journal-kb journal_kb.json --title-kb title_kb.json
 ```
 
-This sends one API request and may incur costs. The formal request used `deepseek-chat`, temperature 0.2, max_tokens 512 and stream=false. The provider returned `deepseek-v4-flash` during the historical experiment; that backend is **not guaranteed** today. No top_p, seed or penalty defaults are guessed or added. Online calls were not executed while preparing this release.
+Without a cached response or online generation, unavailable English fields remain empty.
 
-## Knowledge bases and evaluation data
-
-The full Journal KB (3,075), Title KB (3,372), other entity KBs, formal 300-record Gold data and model-response caches are **not bundled**, pending confirmation of third-party redistribution rights. Public availability of source pages is not a redistribution license. The algorithms, schema documentation and frozen checksums are provided; synthetic fixtures are not replacements for formal snapshots.
-
-The formal held-out experiment used a **3,360-record masked Title KB**, not the unrestricted 3,372-record usage snapshot. See [reproducibility](docs/reproducibility.md), [resource schemas](data/README.md) and [frozen hashes](docs/frozen_asset_manifest.json).
-
-## Evaluation and reproducibility
+## Web interface and PDF input
 
 ```bash
-python evaluation/evaluate.py --gold YOUR_EVALUATION.csv --predictions YOUR_OUTPUT.csv --output metrics.json
+python -m pip install -e ".[web,pdf]"
+streamlit run app.py
 ```
 
-This actually computes structured accuracy, final observable author identity and strict form, English-journal accuracy, title NEM, mean/corpus chrF++. COMET is optional and requires separately installed dependencies plus a local checkpoint:
+Paste a reference, load your KB files, and inspect field sources, review flags, and citation outputs. PDF input extracts embedded text; scanned documents require external OCR.
+
+## Connect a model
+
+Configure an OpenAI-compatible endpoint and model using environment variables. For example, in PowerShell:
+
+```powershell
+$env:REFAGENT_API_KEY="YOUR_API_KEY"
+$env:REFAGENT_BASE_URL="https://your-provider.example/v1"
+$env:REFAGENT_MODEL="your-chat-model"
+refagent-cn --reference "YOUR CHINESE REFERENCE" --online --prompt prompts/shared_generation_v390.md
+```
+
+On macOS/Linux, use `export NAME="value"` for the same variables. Online mode makes one chat request per reference and may incur provider charges. Choose a model supporting chat-completions requests with system messages and JSON text responses. Provider-specific APIs may require an adapter. Keep credentials out of source control.
+
+## How it works
+
+Chinese reference + optional model response → parsing and verified KB lookup → source-aware field selection → citations and review flags.
+
+Verified exact matches take priority over generated values. Generated metadata remains marked for review. Citation outputs should be checked before use.
+
+## Knowledge bases and evaluation
+
+Bring your own permitted Journal KB and bilingual Title KB JSON files. Full research KBs, the formal evaluation dataset, and model-response caches are not bundled; see [data schemas and resource availability](data/README.md).
+
+Evaluate compatible Gold and prediction CSV files:
 
 ```bash
-python -m pip install -e ".[comet]"
-python evaluation/evaluate.py --gold YOUR_EVALUATION.csv --predictions YOUR_OUTPUT.csv --comet-checkpoint YOUR_MODEL.ckpt
+python evaluation/evaluate.py --gold evaluation.csv --predictions predictions.csv --output metrics.json
 ```
 
-Full paper-result recomputation requires the corresponding private formal assets. No saved paper metric is used as a fixed evaluation output. Review-specific statistical analyses and human-rating data are intentionally not included.
+Metrics include structured-field accuracy, author identity, English-journal accuracy, title NEM, and chrF++. COMET is optional with `.[comet]` and a local checkpoint.
+
+## Documentation
+
+- [Reproducibility and experimental configuration](docs/reproducibility.md)
+- [Data schemas](data/README.md)
+- [Frozen resource checksums](docs/frozen_asset_manifest.json)
+- [Dependency licenses](docs/third_party_notices.md)
+- [Real-reference example](docs/usage_example.md)
+
+Run tests with `python -m unittest discover -s tests -v`. Web/PDF tests require the corresponding optional dependencies.
 
 ## Citation
 
-Associated manuscript (publication details not yet supplied): *Supporting Cross-Lingual Bibliographic Work with a Source-Aware Academic Agent: Evidence from Chinese Journal References*. Target journal: *The Journal of Academic Librarianship*. No DOI, volume or pages are asserted.
+Associated manuscript: *Supporting Cross-Lingual Bibliographic Work with a Source-Aware Academic Agent: Evidence from Chinese Journal References*. Publication details will be added when available.
 
 ## License
 
-Original code, documentation and explicitly synthetic fixtures: MIT. Third-party datasets, dependencies and model weights are excluded; see [third-party notices](docs/third_party_notices.md).
-
+Original code, documentation, and synthetic examples are MIT-licensed. Third-party data, dependencies, and model weights retain their own terms. PyMuPDF uses separate AGPL/commercial licensing.

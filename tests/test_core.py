@@ -59,8 +59,22 @@ class CoreTests(unittest.TestCase):
         self.assertFalse(identity_match('Ke P.','Ke Bing'))
 
     def test_online_is_opt_in(self):
-        with patch.dict('os.environ',{'DEEPSEEK_API_KEY':''}):
+        with patch.dict('os.environ',{'DEEPSEEK_API_KEY':'','REFAGENT_API_KEY':'','REFAGENT_BASE_URL':'','REFAGENT_MODEL':''}):
             with self.assertRaises(RuntimeError):RefAgent().process(FIXTURE['reference'],online=True)
+
+    def test_custom_model_configuration(self):
+        from refagent_cn.llm_client import LLMClient
+        prompt=Path(__file__).resolve().parents[1]/'prompts/shared_generation_v390.md'
+        seen={}
+        def fake_request(client,messages,**kwargs):
+            seen.update(client.config)
+            self.assertEqual(client._chat_url(),'https://provider.example/v1/chat/completions')
+            self.assertEqual(client.get_api_key(),'test-only-not-a-real-key')
+            return json.dumps(FIXTURE['shared_response'])
+        with patch.dict('os.environ',{'REFAGENT_API_KEY':'test-only-not-a-real-key','REFAGENT_BASE_URL':'https://provider.example/v1','REFAGENT_MODEL':'alternative-model'}), patch.object(LLMClient,'_request_chat',fake_request), patch('urllib.request.urlopen',side_effect=AssertionError('Network forbidden')):
+            result=RefAgent().process(FIXTURE['reference'],online=True,prompt_path=prompt)
+        self.assertEqual(seen['model'],'alternative-model')
+        self.assertEqual(result['Generation_Mode'],'online_shared_generation')
 
 if __name__=='__main__':unittest.main()
 
